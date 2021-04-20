@@ -3,8 +3,13 @@ package xyz.merccurion.spring.model;
 import javax.persistence.*;
 import java.util.*;
 
+@Entity
+@Table(name = "employee")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name ="lastName", column = @Column(name = "last_name")),
@@ -33,12 +38,15 @@ public class Employee {
     })
     private Other other;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinColumn(name="employee_id", referencedColumnName = "contactid")
-    private Set<Contact> contact = new LinkedHashSet<Contact>();
-    private Set<Roles> roles = new LinkedHashSet<Roles>();
+    private List<Contact> contact = new ArrayList<>();
 
-    public Employee() {};
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.LAZY)
+    @JoinTable(name = "employee_roles", joinColumns = {@JoinColumn(name = "employee_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<Roles> roles = new ArrayList<>();
+
+    public Employee() {}
 
     public Employee(Name name, Address address, Other other) {
         this.name = name;
@@ -74,17 +82,17 @@ public class Employee {
         this.other = other;
     }
 
-    public Set<Contact> getContact() {
+    public List<Contact> getContact() {
         return contact;
     }
-    public void setContact(Set<Contact> contact) {
+    public void setContact(List<Contact> contact) {
         this.contact = contact;
     }
 
-    public Set<Roles> getRoles() {
+    public List<Roles> getRoles() {
         return roles;
     }
-    public void setRoles(Set<Roles> roles) {
+    public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
 

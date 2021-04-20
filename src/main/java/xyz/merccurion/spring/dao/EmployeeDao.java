@@ -8,13 +8,24 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.*;
 
-public interface EmployeeDao {
+@Repository
+public interface EmployeeDao extends JpaRepository<Employee, Integer> {
 
-    int addEmployee(Employee employee);
+    @Query(value = "SELECT * FROM employee ORDER BY gwa DESC", nativeQuery = true)
+    Optional<List<Employee>> listEmployeeByGwaDesc();
 
-//    @Query(value = "SELECT * FROM employee ORDER BY hire_date DESC", nativeQuery = true)
-//    Optional<List<Employee>> listEmployeeByHireDate();
-//
-//    @Query(value = "SELECT * FROM employee ORDER BY last_name ASC", nativeQuery = true)
-//    Optional<List<Employee>> listEmployeeByLastName();
+    @Query(value = "SELECT * FROM employee ORDER BY gwa ASC", nativeQuery = true)
+    Optional<List<Employee>> listEmployeeByGwaAsc();
+
+    @Query(value = "SELECT * FROM employee ORDER BY hire_date DESC", nativeQuery = true)
+    Optional<List<Employee>> listEmployeeByHireDateDesc();
+
+    @Query(value = "SELECT * FROM employee ORDER BY hire_date ASC", nativeQuery = true)
+    Optional<List<Employee>> listEmployeeByHireDateAsc();
+
+    @Query(value = "SELECT * FROM employee ORDER BY last_name DESC", nativeQuery = true)
+    Optional<List<Employee>> listEmployeeByLastNameDesc();
+
+    @Query(value = "SELECT * FROM employee ORDER BY last_name ASC", nativeQuery = true)
+    Optional<List<Employee>> listEmployeeByLastNameAsc();
 }

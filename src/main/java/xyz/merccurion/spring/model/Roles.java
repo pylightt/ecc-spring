@@ -1,14 +1,21 @@
 package xyz.merccurion.spring.model;
 
-import javax.persistence.Embeddable;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
 
-@Embeddable
-public class Roles {
+@Entity
+@Table(name="roles")
+public class Roles implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roleid;
+
+    @Column(name = "role")
     private String role;
-    private Set<Employee> employee = new LinkedHashSet<Employee>();
+
+    @ManyToMany(mappedBy = "employee_roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Employee> employee = new ArrayList<>();
 
     public Roles() {}
 
@@ -30,10 +37,10 @@ public class Roles {
         this.role = role;
     }
 
-    public Set<Employee> getEmployee() {
+    public List<Employee> getEmployee() {
         return employee;
     }
-    public void setEmployee(Set<Employee> employee) {
+    public void setEmployee(List<Employee> employee) {
         this.employee = employee;
     }
 
