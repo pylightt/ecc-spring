@@ -8,13 +8,13 @@ import java.util.*;
 @Table(name="roles")
 public class Roles implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roleid;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int roleId;
 
-    @Column(name = "role")
+    @Column(name = "roles")
     private String role;
 
-    @ManyToMany(mappedBy = "employee_roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Employee> employee = new ArrayList<>();
 
     public Roles() {}
@@ -23,11 +23,11 @@ public class Roles implements Serializable {
         this.role = role;
     }
 
-    public int getRoleid() {
-        return roleid;
+    public int getRoleId() {
+        return roleId;
     }
-    public void setRoleid(int roleid) {
-        this.roleid = roleid;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getRole() {
@@ -47,7 +47,7 @@ public class Roles implements Serializable {
     @Override
     public String toString() {
         return "\t\t" +
-                "Role Id: " + roleid + "\t" +
+                "Role Id: " + roleId + "\t" +
                 "Role: " + role;
     }
 }

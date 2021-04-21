@@ -1,5 +1,7 @@
 package xyz.merccurion.spring.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import xyz.merccurion.spring.dao.EmployeeDao;
 import xyz.merccurion.spring.exceptions.ResourceNotFoundException;
@@ -27,8 +29,8 @@ public class EmployeeService {
     }
 
     // GET / LIST //
-    public List<Employee> getAllEmployee() {
-        return employeeDao.findAll();
+    public Page<Employee> getAllEmployee(Pageable pageable) {
+        return employeeDao.findAll(pageable);
     }
 
     public List<Employee> listEmployeeByGwaDesc() {
@@ -60,7 +62,8 @@ public class EmployeeService {
 
     // UPDATE //
     public Employee updateEmployee(int id, Employee employee) throws ResourceNotFoundException {
-        Employee updatedEmployee = employeeDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee (ID: " + id + " not found."));
+        Employee updatedEmployee = employeeDao.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Employee (ID: " + id + " not found."));
 
         updatedEmployee.getName().setLastName(employee.getName().getLastName());
         updatedEmployee.getName().setFirstName(employee.getName().getFirstName());
@@ -82,7 +85,8 @@ public class EmployeeService {
     }
 
     // DELETE //
-    public void deleteEmployee(int id) {
-        employeeDao.deleteById(id);
+    public void deleteEmployee(int id) throws ResourceNotFoundException {
+        Employee deleteEmployee = employeeDao.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Employee (ID: " + id + " not found."));
     }
 }

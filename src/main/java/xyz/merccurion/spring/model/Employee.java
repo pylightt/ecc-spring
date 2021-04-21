@@ -1,13 +1,17 @@
 package xyz.merccurion.spring.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "employee")
-public class Employee {
+public class Employee implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "employee_id")
     private int id;
 
     @Embedded
@@ -39,11 +43,14 @@ public class Employee {
     private Other other;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    @JoinColumn(name="employee_id", referencedColumnName = "contactid")
+    @JoinColumn(name="employee_id")
     private List<Contact> contact = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.LAZY)
-    @JoinTable(name = "employee_roles", joinColumns = {@JoinColumn(name = "employee_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JoinTable(
+            name = "employee_roles",
+            joinColumns = {@JoinColumn(name = "employee_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Roles> roles = new ArrayList<>();
 
     public Employee() {}

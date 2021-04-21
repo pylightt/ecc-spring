@@ -1,8 +1,11 @@
 package xyz.merccurion.spring.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.merccurion.spring.exceptions.ResourceNotFoundException;
@@ -12,7 +15,7 @@ import xyz.merccurion.spring.service.EmployeeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("api")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -23,23 +26,23 @@ public class EmployeeController {
     }
 
     // add employee
-    @PostMapping("employee")
+    @PostMapping("/employee/add")
     public Employee addEmployee(@RequestBody Employee employee) {
         return this.employeeService.addEmployee(employee);
     }
 
     // get employees
-    @GetMapping("employee")
-    public List<Employee> getAllEmployee() {
-        return this.employeeService.getAllEmployee();
+    @GetMapping("/employee/all")
+    public Page<Employee> getAllEmployee(Pageable pageable) {
+        return this.employeeService.getAllEmployee(pageable);
     }
 
     // get employees by gwa
-    @GetMapping("employee/gwa/desc")
+    @GetMapping("/employee/gwa/desc")
     public List<Employee> listEmployeeByGwaDesc() {
         return this.employeeService.listEmployeeByGwaDesc();
     }
-    @GetMapping("employee/gwa/asc")
+    @GetMapping("/employee/gwa/asc")
     public List<Employee> listEmployeeByGwaAsc() {
         return this.employeeService.listEmployeeByGwaAsc();
     }
@@ -65,7 +68,7 @@ public class EmployeeController {
     }
 
     // update employee
-    @PutMapping("employee/{id}")
+    @PutMapping("/employee/update/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) throws ResourceNotFoundException {
         Employee updatedEmployee = employeeService.updateEmployee(id, employee);
         return ResponseEntity.ok(updatedEmployee);
@@ -73,7 +76,7 @@ public class EmployeeController {
 
     // delete employee
     @DeleteMapping("employee/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable("id") int id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") int id) throws ResourceNotFoundException {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>("Employee (ID: " + id + ") deleted.", HttpStatus.OK);
     }

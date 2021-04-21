@@ -1,5 +1,9 @@
 package xyz.merccurion.spring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,8 +11,8 @@ import java.io.Serializable;
 @Table(name = "contact")
 public class Contact implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int contactid;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int contactId;
 
     @Column(name = "landline")
     private String landline;
@@ -19,6 +23,8 @@ public class Contact implements Serializable {
     @Column(name = "email")
     private String email;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "employee_id")
     @Transient
     private Employee employee;
 
@@ -30,11 +36,11 @@ public class Contact implements Serializable {
         this.email = email;
     }
 
-    public int getContactid() {
-        return contactid;
+    public int getContactId() {
+        return contactId;
     }
-    public void setContactid(int contactid) {
-        this.contactid = contactid;
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 
     public String getLandline() {
@@ -68,7 +74,7 @@ public class Contact implements Serializable {
     @Override
     public String toString() {
         return "\t\t" +
-                "Id: " + contactid + "\n" +
+                "contactId: " + contactId + "\n" +
                 "Landline: " + landline + "\n\t\t" +
                 "Mobile: " + mobile + "\n\t\t" +
                 "E-mail: " + email;
