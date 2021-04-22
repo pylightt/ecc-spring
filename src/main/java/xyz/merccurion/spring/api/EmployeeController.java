@@ -15,7 +15,7 @@ import xyz.merccurion.spring.service.EmployeeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/employee")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -26,56 +26,56 @@ public class EmployeeController {
     }
 
     // add employee
-    @PostMapping("/employee/add")
+    @PostMapping("/add")
     public Employee addEmployee(@RequestBody Employee employee) {
         return this.employeeService.addEmployee(employee);
     }
 
     // get employees
-    @GetMapping("/employee/all")
+    @GetMapping("/all")
     public Page<Employee> getAllEmployee(Pageable pageable) {
         return this.employeeService.getAllEmployee(pageable);
     }
 
     // get employees by gwa
-    @GetMapping("/employee/gwa/desc")
+    @GetMapping("/gwa/desc")
     public List<Employee> listEmployeeByGwaDesc() {
         return this.employeeService.listEmployeeByGwaDesc();
     }
-    @GetMapping("/employee/gwa/asc")
+    @GetMapping("/gwa/asc")
     public List<Employee> listEmployeeByGwaAsc() {
         return this.employeeService.listEmployeeByGwaAsc();
     }
 
     // get employees by date hired
-    @GetMapping("/employee/hiredate/desc")
+    @GetMapping("/hiredate/desc")
     public List<Employee> listEmployeeByHireDateDesc() {
         return this.employeeService.listEmployeeByHireDateDesc();
     }
-    @GetMapping("/employee/hiredate/asc")
+    @GetMapping("/hiredate/asc")
     public List<Employee> listEmployeeByHireDateAsc() {
         return this.employeeService.listEmployeeByHireDateAsc();
     }
 
     // get employees by last name
-    @GetMapping("/employee/lastname/desc")
+    @GetMapping("/lastname/desc")
     public List<Employee> listEmployeeByLastnameDesc() {
         return this.employeeService.listEmployeeByLastNameDesc();
     }
-    @GetMapping("/employee/lastname/asc")
+    @GetMapping("/lastname/asc")
     public List<Employee> listEmployeeByLastnameAsc() {
         return this.employeeService.listEmployeeByLastNameAsc();
     }
 
     // update employee
-    @PutMapping("/employee/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) throws ResourceNotFoundException {
         Employee updatedEmployee = employeeService.updateEmployee(id, employee);
         return ResponseEntity.ok(updatedEmployee);
     }
 
     // delete employee
-    @DeleteMapping("employee/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable("id") int id) throws ResourceNotFoundException {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>("Employee (ID: " + id + ") deleted.", HttpStatus.OK);

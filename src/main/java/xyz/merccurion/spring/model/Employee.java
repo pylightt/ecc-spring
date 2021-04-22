@@ -1,9 +1,5 @@
 package xyz.merccurion.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -48,9 +44,8 @@ public class Employee implements Serializable {
     @JoinColumn(name="employee_id")
     private List<Contact> contact = new ArrayList<Contact>();
 
-    @ManyToMany(
-            cascade = {
-                    CascadeType.PERSIST})
+    @ManyToMany( fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "employee_roles",
             joinColumns = {@JoinColumn(name = "employee_id")},

@@ -1,10 +1,6 @@
 package xyz.merccurion.spring.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,19 +16,10 @@ public class Roles implements Serializable {
 
     private String role;
 
-    @ManyToMany(
-            fetch = FetchType.EAGER,
-            mappedBy = "roles",
-            cascade = {CascadeType.DETACH,
-                    CascadeType.PERSIST
-//                    CascadeType.DETACH,
-//                    CascadeType.MERGE,
-//                    CascadeType.PERSIST
-            })
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.PERSIST)
     @JsonIgnore
     private List<Employee> employee = new ArrayList<Employee>();
 
-    public Roles() {}
 
     public Roles(String role) {
         this.role = role;
@@ -61,8 +48,22 @@ public class Roles implements Serializable {
 
     @Override
     public String toString() {
-        return "\t\t" +
-                "Role Id: " + roleId + "\t" +
-                "Role: " + role;
+        return role;
     }
-}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Roles) {
+            Roles r = (Roles) obj;
+            return true;
+        }
+        return false;
+    }
+
+    @PreRemove
+    public void removeRoleFromEmployee() {
+        for (Employee e : employee) {
+            e.getRoles().remove(this);
+        }
+    }
+ }

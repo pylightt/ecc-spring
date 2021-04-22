@@ -88,5 +88,6 @@ public class EmployeeService {
     public void deleteEmployee(int id) throws ResourceNotFoundException {
         Employee deleteEmployee = employeeDao.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Employee (ID: " + id + " not found."));
+        employeeDao.deleteById(id);
     }
 }
