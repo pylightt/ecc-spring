@@ -14,18 +14,16 @@ public class Contact implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int contactId;
 
-    @Column(name = "landline")
     private String landline;
 
-    @Column(name = "mobile")
     private String mobile;
 
-    @Column(name = "email")
     private String email;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "employee_id")
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Employee employee;
 
     public Contact() {}

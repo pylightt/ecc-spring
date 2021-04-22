@@ -1,5 +1,11 @@
 package xyz.merccurion.spring.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -9,13 +15,22 @@ import java.util.*;
 public class Roles implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "role_id", updatable = false, nullable = false)
     private int roleId;
 
-    @Column(name = "roles")
     private String role;
 
-    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Employee> employee = new ArrayList<>();
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "roles",
+            cascade = {CascadeType.DETACH,
+                    CascadeType.PERSIST
+//                    CascadeType.DETACH,
+//                    CascadeType.MERGE,
+//                    CascadeType.PERSIST
+            })
+    @JsonIgnore
+    private List<Employee> employee = new ArrayList<Employee>();
 
     public Roles() {}
 

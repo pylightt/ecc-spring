@@ -28,6 +28,7 @@ public class ContactService {
                 new ResourceNotFoundException("Employee (ID: " + employeeId + " not found."));
         List<Contact> contactList = employee.getContact();
         contactList.add(contact);
+        contact.setEmployee(employee);
         employee.setContact(contactList);
         return employeeDao.save(employee);
     }

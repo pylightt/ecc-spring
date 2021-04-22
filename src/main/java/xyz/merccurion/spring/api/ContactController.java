@@ -28,17 +28,17 @@ public class ContactController {
         return ResponseEntity.ok(addContactEmployee);
     }
 
-    @PutMapping("/updateContact/{contactId}")
+    @PutMapping("/update/{contactId}")
     public ResponseEntity<Contact> updateContact(@PathVariable("contactId") int contactId,
                                                  @RequestBody Contact contact) throws ResourceNotFoundException {
         Contact updatedContact = contactService.updateContact(contactId, contact);
         return ResponseEntity.ok(updatedContact);
     }
 
-    @DeleteMapping("/deleteContact/{id}")
+    @DeleteMapping("/delete/{contactId}")
     public ResponseEntity<String> deleteContact(@PathVariable("contactId") int contactId) {
         contactService.deleteContact(contactId);
-        return new ResponseEntity<>("Contact (ID: " + contactId + ") deleted.", HttpStatus.OK);
+        return new ResponseEntity<>("Contact (ID: " + contactId + ") successfully deleted.", HttpStatus.OK);
     }
 
 }
