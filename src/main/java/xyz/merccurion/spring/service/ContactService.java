@@ -2,6 +2,7 @@ package xyz.merccurion.spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import xyz.merccurion.spring.dao.ContactDao;
 import xyz.merccurion.spring.dao.EmployeeDao;
 import xyz.merccurion.spring.exceptions.ResourceNotFoundException;
@@ -45,7 +46,7 @@ public class ContactService {
     }
 
     public void deleteContact(int id) {
-        contactDao.deleteById(id);
+        if(contactDao.existsById(id)) contactDao.deleteById(id);
     }
 
 

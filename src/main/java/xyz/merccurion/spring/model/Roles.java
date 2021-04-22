@@ -18,7 +18,7 @@ public class Roles implements Serializable {
 
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.PERSIST)
     @JsonIgnore
-    private List<Employee> employee = new ArrayList<Employee>();
+    private List<Employee> employee = new ArrayList<>();
 
 
     public Roles(String role) {

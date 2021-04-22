@@ -52,7 +52,7 @@ public class RolesService {
     }
 
     public void deleteRole(int id) {
-        rolesDao.deleteById(id);
+        if(rolesDao.existsById(id)) rolesDao.deleteById(id);
     }
 
     public Employee deleteEmployeeRole(int employeeId, int roleId) throws ResourceNotFoundException {

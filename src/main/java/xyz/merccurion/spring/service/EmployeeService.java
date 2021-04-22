@@ -23,7 +23,6 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
-    // ADD //
     public Employee addEmployee(Employee employee) {
         return employeeDao.save(employee);
     }
@@ -60,7 +59,6 @@ public class EmployeeService {
         return employeeByHireDate.orElse(null);
     }
 
-    // UPDATE //
     public Employee updateEmployee(int id, Employee employee) throws ResourceNotFoundException {
         Employee updatedEmployee = employeeDao.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Employee (ID: " + id + " not found."));
@@ -84,10 +82,7 @@ public class EmployeeService {
         return this.employeeDao.save(updatedEmployee);
     }
 
-    // DELETE //
     public void deleteEmployee(int id) throws ResourceNotFoundException {
-        Employee deleteEmployee = employeeDao.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Employee (ID: " + id + " not found."));
-        employeeDao.deleteById(id);
+        if(employeeDao.existsById(id)) employeeDao.deleteById(id);
     }
 }

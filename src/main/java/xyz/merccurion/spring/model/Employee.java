@@ -42,7 +42,7 @@ public class Employee implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name="employee_id")
-    private List<Contact> contact = new ArrayList<Contact>();
+    private List<Contact> contact = new ArrayList<>();
 
     @ManyToMany( fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST)
